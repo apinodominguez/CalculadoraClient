@@ -5,6 +5,14 @@
  */
 package boletin27;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ecollazodominguez
@@ -12,11 +20,14 @@ package boletin27;
 public class Calculadora extends javax.swing.JFrame {
     String texto="";
     String texVisible="";
-    double resultado;
-    boolean suma = false;
-    boolean resta = false;
-    boolean division = false;
-    boolean multi = false;
+    String resultado = "";
+    String op = "";
+   
+    private Socket clientSocket;
+    
+    public Calculadora (Socket socket) {
+        clientSocket = socket;
+    }
 
     /**
      * Creates new form Calculadora
@@ -24,7 +35,7 @@ public class Calculadora extends javax.swing.JFrame {
     public Calculadora() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -387,11 +398,11 @@ public class Calculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_b3ActionPerformed
 
     private void b4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b4ActionPerformed
-        resultado = Double.parseDouble(texto);
+        resultado = texto;
         texto = "";
         jTextField1.setText(texVisible+" "+"/"+" ");
         texVisible = jTextField1.getText();
-        division = true;
+        op = "/";
     }//GEN-LAST:event_b4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -413,11 +424,11 @@ public class Calculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        resultado = Double.parseDouble(texto);
+        resultado = texto;
         texto= "";
         jTextField1.setText(texVisible+" "+"*"+" ");
         texVisible = jTextField1.getText();
-        multi = true;
+        op = "*";
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -439,11 +450,11 @@ public class Calculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        resultado = Double.parseDouble(texto);
+        resultado = texto;
         texto= "";
         jTextField1.setText(texVisible+" "+"-"+" ");
         texVisible = jTextField1.getText();
-        resta = true;
+        op = "-";
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
@@ -459,34 +470,15 @@ public class Calculadora extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        resultado = Double.parseDouble(texto);
+        resultado = texto;
         texto= "";
         jTextField1.setText(texVisible+" "+"+"+" ");
         texVisible = jTextField1.getText();
-        suma = true;
+        op = "+";
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        if(suma==true){
-            resultado=resultado+Double.parseDouble(texto);
-        }
-        if (resta==true){
-            resultado=resultado-Double.parseDouble(texto);
-        }
-        if (multi==true){
-            resultado=resultado*Double.parseDouble(texto);
-        }
-        if(division==true){
-            resultado=resultado/Double.parseDouble(texto);
-        }
         
-        jTextField1.setText(String.valueOf(resultado));
-        texto="";
-        texVisible="";
-        suma = false;
-        resta = false;
-        multi = false;
-        division = false;
     }//GEN-LAST:event_jButton14ActionPerformed
 
     /**
